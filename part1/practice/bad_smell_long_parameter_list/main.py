@@ -11,40 +11,29 @@
 
 
 class Unit:
-    def move(self, field, x_coord, y_coord, direction, is_fly, crawl, speed = 1):
 
-        if is_fly and crawl:
+    def __init__(self, x_coord, y_coord, state):
+        self.x_coord = x_coord
+        self.y_coord = y_coord
+        self.state = state
+
+    def move(self, direction):
+        speed = self._get_speed()
+
+        if direction == 'UP':
+            self.y_coord += speed
+        elif direction == 'DOWN':
+            self.y_coord -= speed
+        elif direction == 'LEFT':
+            self.x_coord -= speed
+        elif direction == 'RIGTH':
+            self.x_coord += speed
+
+    def _get_speed(self):
+        speed = 1
+        if self.state == 'fly':
+            return speed * 1.2
+        elif self.state == 'crawl':
+            return speed * 0.5
+        else:
             raise ValueError('Рожденный ползать летать не должен!')
-
-        if is_fly:
-            speed *= 1.2
-            if direction == 'UP':
-                new_y = y_coord + speed
-                new_x = x_coord
-            elif direction == 'DOWN':
-                new_y = y_coord - speed
-                new_x = x_coord
-            elif direction == 'LEFT':
-                new_y = y_coord
-                new_x = x_coord - speed
-            elif direction == 'RIGTH':
-                new_y = y_coord
-                new_x = x_coord + speed
-        if crawl:
-            speed *= 0.5
-            if direction == 'UP':
-                new_y = y_coord + speed
-                new_x = x_coord
-            elif direction == 'DOWN':
-                new_y = y_coord - speed
-                new_x = x_coord
-            elif direction == 'LEFT':
-                new_y = y_coord
-                new_x = x_coord - speed
-            elif direction == 'RIGTH':
-                new_y = y_coord
-                new_x = x_coord + speed
-
-            field.set_unit(x=new_x, y=new_y, unit=self)
-
-#     ...
